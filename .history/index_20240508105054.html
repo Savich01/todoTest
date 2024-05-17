@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>ToDO</title>
+</head>
+<body>
+    <header class="header">
+        <div class="header-block">
+            <div class="header-block__sub">
+                <h1 class="title">ToDoJS Add</h1>
+                <form class="personal" action="#">
+                    <input class="personal-input" type="text">
+                    <button class="personal-btn">add</button>
+                </form>
+            </div>
+        </div>
+    </header>
+     <main class="main">
+        <div class="main-block">
+            <ul class="main-container--list2">
+                    <li class="main-container--list-link2">
+                        <input class="checkbox-active" type="checkbox">
+                        <span>Check all todos</span>
+                    </li>
+                </ul>
+            <div class="main-container">
+
+                <ul class="main-container--list">
+                    <li class="main-container--list-link">
+                        <input class="main-checked" type="checkbox" data-action = "done">
+                        <span class="main-text main-text--done">lorem</span>
+                    </li>
+                    <button class="main--list-btn" data-action = "delete">
+                        х
+                    </button>
+               </ul> 
+            </div>
+            
+                             
+
+
+            <div class="main-button"> 
+                 <button class="main-btn1">All()</button>
+                 <button class="main-btn2">Active()</button>
+                 <button class="main-btn3">Completed()</button>
+            </div>
+            </div>
+     </main>
+     <footer class="footer">
+        <div class="footer-block">
+            <div class="footer-btn">
+                <button class="btn">Delete completed</button>
+            </div>
+        </div>
+     </footer>
+        <script src="js/script.js"></script>
+</body>
+</html>
