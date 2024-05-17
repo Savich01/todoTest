@@ -6,7 +6,7 @@ const $taskList = document.querySelector('.main-list');
 const $ContainerTask = document.querySelector('.container');
 const $taskBtn1 = document.querySelector('.main-btn1');
 
-let taskArray = [];
+const taskArray = [];
 
 
 // При НАЖАТИИ НА КНОПКУ получаем значение из Input
@@ -69,18 +69,14 @@ const addChecked = (event) =>{
 
 //УДАЛЯЕМ ЭЛЕМЕНТЫ НА СТРАНИЦЕ
 const deleteTask = (event) => {
-  
-  const removeBtn = event.target;
-  console.log(removeBtn.className);
-  if(event.target.className === 'btn'){
-    console.log(removeBtn.id);
-    taskArray = taskArray.filter((item) => Number(item.id) !== Number(removeBtn.id));
-    console.log(taskArray);
-  };
-  addRender();
+  const removeBtn = event.target.closest('.main-list--link');
+  const taskIndex = taskArray.findIndex((task) => task.id == removeBtn.id);
+  if (taskIndex !== -1) {
+    taskArray.splice(taskIndex, 1);
   }
- 
-;
+  removeBtn.remove();
+  addRender(event);
+};
 
 
 
@@ -93,9 +89,9 @@ $taskButton.addEventListener('click', (event) =>{
 $ContainerTask.addEventListener('click', (event) =>{
   addChecked(event);
 });
-$ContainerTask.addEventListener('click', (event) =>{
-  deleteTask(event); 
-});
+// $ContainerTask.addEventListener('click', (event) =>{
+//   deleteTask(event);
+// });
 
 $taskBtn1.addEventListener('click', addChecked);
 

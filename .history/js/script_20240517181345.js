@@ -73,9 +73,8 @@ const deleteTask = (event) => {
   const removeBtn = event.target;
   console.log(removeBtn.className);
   if(event.target.className === 'btn'){
-    console.log(removeBtn.id);
-    taskArray = taskArray.filter((item) => Number(item.id) !== Number(removeBtn.id));
-    console.log(taskArray);
+    console.log(task.id);
+    taskArray = taskArray.filter((task) => task.id != removeBtn.id);
   };
   addRender();
   }

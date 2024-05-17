@@ -69,18 +69,18 @@ const addChecked = (event) =>{
 
 //УДАЛЯЕМ ЭЛЕМЕНТЫ НА СТРАНИЦЕ
 const deleteTask = (event) => {
-  
   const removeBtn = event.target;
-  console.log(removeBtn.className);
-  if(event.target.className === 'btn'){
-    console.log(removeBtn.id);
-    taskArray = taskArray.filter((item) => Number(item.id) !== Number(removeBtn.id));
-    console.log(taskArray);
-  };
-  addRender();
+  if(event.target.classList == 'btn'){
+    taskArray = taskArray.filter((task) => {
+    task.id == removeBtn.id;
+  });
+  console.log(removeBtn.className)
   }
- 
-;
+  
+  // console.log(filteredTasks)
+  // removeBtn.remove();
+  addRender(event);
+};
 
 
 
@@ -93,7 +93,7 @@ $taskButton.addEventListener('click', (event) =>{
 $ContainerTask.addEventListener('click', (event) =>{
   addChecked(event);
 });
-$ContainerTask.addEventListener('click', (event) =>{
+$ContainerTask.addEventListener('dblclick', (event) =>{
   deleteTask(event); 
 });
 
