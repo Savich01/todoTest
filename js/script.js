@@ -2,9 +2,15 @@
 
 const $taskInput = document.querySelector('.personal-input');
 const $taskButton = document.querySelector('.personal-btn');
-const $taskList = document.querySelector('.main-list');
+const $taskList = document.querySelector('.main-list');// список для активных задач
+const $completedTasksList = document.querySelector('.completed-tasks-list'); //
 const $ContainerTask = document.querySelector('.container');
+const $checkedAll = document.querySelector('.checkbox-active');
 const $taskBtn1 = document.querySelector('.main-btn1');
+const $taskBtn2 = document.querySelector('.main-btn2');
+const $taskBtn3 = document.querySelector('.main-btn3');
+
+
 
 let taskArray = [];
 
@@ -17,33 +23,33 @@ const addTask = (event) => {
   const newTask = {
     id: Date.now(),
     elem: $taskInput.value,
-    checked: false
+    checked: $checkedAll.checked
   };
 
   taskArray.push(newTask);
   addRender();
-}
+};
 
-//================================================
+//=========ДОБОВЛЯЕМ ЭЛЕМЕНТ НА СТРАНИЦУ=======================================
 
-//ДОБОВЛЯЕМ ЭЛЕМЕНТ НА СТРАНИЦУ
 function addRender(){
+  // $ContainerTask.innerHTML = '';
   let li = '';
   taskArray.forEach(function(task){
-    li += `<li id='${task.id}'class="main-list--link">
+    li += `<li data-task-id='${task.id}' class="main-list--link">
             <div class="main-link">
                 <input id='${task.id}' class="main-input" type="checkbox"}>
                 <span class="main-text">${task.elem}</span>
             </div>
-            <button id='${task.id}' class="btn">X</button>
+            <button id='${task.id}' class="btn" data-action='delete'>X</button>
           </li>`;
 
         $taskList.innerHTML = li;
   });
+
   $taskInput.value = '';
   $taskInput.focus();
   
-
   //ДОБАВЛЯЕМ АКТИВНЫЕ ЧЕКБОКСЫ НА СТРАНИЦУ(ALL)
    taskArray.forEach((task) => {
     const taskReturn = document.getElementById(`${task.id}`);
@@ -51,53 +57,94 @@ function addRender(){
   });
 };
 
+//=========МЕНЯEМ КЛАСС У ЧЕКБОКСОВ======================================
 
-//===============================================
-
-// МЕНЯEМ КЛАСС У ЧЕКБОКСОВ
 const addChecked = (event) =>{
   const changeElem = event.target;
   taskArray.forEach((task) => {
     if(task.id == changeElem.id){
       task.checked = changeElem.checked;
-    };
+    }
     console.log(taskArray);
   });
 };
 
-//===============================================
+//==========Делаем все чекбоксы активными=====================================
 
-//УДАЛЯЕМ ЭЛЕМЕНТЫ НА СТРАНИЦЕ
-const deleteTask = (event) => {
-  
-  const removeBtn = event.target;
-  console.log(removeBtn.className);
-  if(event.target.className === 'btn'){
-    console.log(removeBtn.id);
-    taskArray = taskArray.filter((item) => Number(item.id) !== Number(removeBtn.id));
-    console.log(taskArray);
-  };
+const activeChecked = (event) => {
+  const chekAll = event.target;
+  console.log(chekAll);
+  taskArray.forEach((task) => {
+    task.checked = chekAll.checked;
+  });
   addRender();
-  }
- 
-;
+  console.log(taskArray);
+};
+
+//==========УДАЛЯЕМ ЭЛЕМЕНТЫ НА СТРАНИЦЕ=====================================
+
+const deleteTask = (event) => {
+  //проверяем что кик был по кнопке
+  if(event.target.dataset.action === 'delete'){
+    const listItem = event.target.closest('.main-list--link');
+    const taskId = listItem.dataset.taskId;
+
+    taskArray = taskArray.filter((task) => {
+      return task.id != taskId;
+    });
+  // Удаляем задачу из разметки
+    listItem.remove();
+    addRender();
+  };
+};
+
+//==========ЭЛЕМЕНТ ПОПАДАЕТ В ЗАВЕРШЕННЫЕ ЗАДАЧИ=========================
+const arrCompleted = () => {
+
+  let arrTask = [];
+
+  taskArray.forEach((task) => {
+    if(task.checked === true){
+      arrTask.push(task);
+    }
+  });
+  console.log(arrTask);
+  addRender(arrTask);
+};
+
+//======ЭЛЕМЕНТ ПОПАДАЕТ В АКТИВНЫЕ ЗАДАЧИ=========================
+
+const arrActive = () => {
+
+  let arrTask2 = [];
+
+  taskArray.forEach((task) => {
+    if (task.checked === false) {
+      arrTask2.push(task);
+    }
+  });
+  console.log(arrTask2);
+  addRender(arrTask2);
+};
 
 
-
-//===========================СОБЫТИЯ==============================================================
+//===========================СОБЫТИЯ===================================================
 // При НАЖАТИИ НА КНОПКУ получаем значение из Input
-$taskButton.addEventListener('click', (event) =>{
-  addTask(event);
-});
-// ПРИ НАЖАТИИ НА КНОПКУ МЕНЯEМ КЛАСС У ЧЕКБОКСОВ
-$ContainerTask.addEventListener('click', (event) =>{
-  addChecked(event);
-});
-$ContainerTask.addEventListener('click', (event) =>{
-  deleteTask(event); 
-});
+$taskButton.addEventListener('click', addTask);
 
-$taskBtn1.addEventListener('click', addChecked);
+// УДАЛЯЕМ ЗАДАЧИ
+$taskList.addEventListener('click', deleteTask);
+
+
+// ПРИ НАЖАТИИ НА КНОПКУ МЕНЯEМ КЛАСС У ЧЕКБОКСОВ
+$taskList.addEventListener('change', addChecked);
+
+// ПРИ НАЖАТИИ НА КНОПКУ ВСЕ ЧЕКБОКСЫ СТАНОВЯТЬСЯ АКТИВНЫМИ
+$checkedAll.addEventListener('change', activeChecked);
+
+// РАСПРЕДЕЛЕНИЕ ЗАДАЧ ПО КЛАССАМ
+$taskBtn2.addEventListener('click', arrActive);
+$taskBtn3.addEventListener('click', arrCompleted);
 
 
 
