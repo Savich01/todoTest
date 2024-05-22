@@ -2,9 +2,7 @@
 
 const $taskInput = document.querySelector('.personal-input');
 const $taskButton = document.querySelector('.personal-btn');
-const $taskList = document.querySelector('.main-list');// список для активных задач
-const $completedTasksList = document.querySelector('.completed-tasks-list'); //
-const $ContainerTask = document.querySelector('.container');
+const $taskList = document.querySelector('.main-list');
 const $checkedAll = document.querySelector('.checkbox-active');
 const $taskBtn1 = document.querySelector('.main-btn1');
 const $taskBtn2 = document.querySelector('.main-btn2');
@@ -32,21 +30,21 @@ const addTask = (event) => {
 
 //=========ДОБОВЛЯЕМ ЭЛЕМЕНТ НА СТРАНИЦУ=======================================
 
-function addRender(){
-  // $ContainerTask.innerHTML = '';
+const addRender = () =>{
   let li = '';
   taskArray.forEach(function(task){
     li += `<li data-task-id='${task.id}' class="main-list--link">
             <div class="main-link">
                 <input id='${task.id}' class="main-input" type="checkbox"}>
-                <span class="main-text">${task.elem}</span>
+                <span id='${task.id}' class="main-text">${task.elem}</span>
             </div>
             <button id='${task.id}' class="btn" data-action='delete'>X</button>
           </li>`;
 
         $taskList.innerHTML = li;
   });
-
+  
+  //отчищаем поле ввода и добавляем фокус
   $taskInput.value = '';
   $taskInput.focus();
   
@@ -88,45 +86,46 @@ const deleteTask = (event) => {
   if(event.target.dataset.action === 'delete'){
     const listItem = event.target.closest('.main-list--link');
     const taskId = listItem.dataset.taskId;
-
     taskArray = taskArray.filter((task) => {
       return task.id != taskId;
     });
-  // Удаляем задачу из разметки
+    //Удаляем задачу из разметки
     listItem.remove();
     addRender();
   };
 };
 
-//==========ЭЛЕМЕНТ ПОПАДАЕТ В ЗАВЕРШЕННЫЕ ЗАДАЧИ=========================
-const arrCompleted = () => {
+//=========ЭЛЕМЕНТ ПОПАДАЕТ ALL==========================================
+const taskAll = () => {
+  addRender();
+  console.log(taskArray);
+};
 
-  let arrTask = [];
+//=========ЭЛЕМЕНТ ПОПАДАЕТ В АКТИВНЫЕ-ЗАДАЧИ============================
+const arrActive = () => {
+  let taskArr = [];
 
   taskArray.forEach((task) => {
-    if(task.checked === true){
+    if (task.checked == false) {
+      taskArr.push(task);
+    }
+  });
+  addRender(taskArr);
+  console.log(taskArr);
+};
+
+//==========ЭЛЕМЕНТ ПОПАДАЕТ В ЗАВЕРШЕННЫЕ ЗАДАЧИ=========================
+const arrCompleted = () => {
+  let arrTask = [];
+  
+  taskArray.forEach((task) => {
+    if(task.checked == true){
       arrTask.push(task);
     }
   });
-  console.log(arrTask);
   addRender(arrTask);
+  console.log(arrTask);
 };
-
-//======ЭЛЕМЕНТ ПОПАДАЕТ В АКТИВНЫЕ ЗАДАЧИ=========================
-
-const arrActive = () => {
-
-  let arrTask2 = [];
-
-  taskArray.forEach((task) => {
-    if (task.checked === false) {
-      arrTask2.push(task);
-    }
-  });
-  console.log(arrTask2);
-  addRender(arrTask2);
-};
-
 
 //===========================СОБЫТИЯ===================================================
 // При НАЖАТИИ НА КНОПКУ получаем значение из Input
@@ -143,6 +142,7 @@ $taskList.addEventListener('change', addChecked);
 $checkedAll.addEventListener('change', activeChecked);
 
 // РАСПРЕДЕЛЕНИЕ ЗАДАЧ ПО КЛАССАМ
+$taskBtn1.addEventListener('click', taskAll);
 $taskBtn2.addEventListener('click', arrActive);
 $taskBtn3.addEventListener('click', arrCompleted);
 
