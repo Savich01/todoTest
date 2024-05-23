@@ -91,7 +91,7 @@ const deleteTask = (event) => {
     });
     //Удаляем задачу из разметки
     listItem.remove();
-    addRender(taskArray);
+    addRender();
   };
 };
 

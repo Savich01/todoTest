@@ -32,7 +32,7 @@ const addTask = (event) => {
 
 const addRender = (array) =>{
   let li = '';
-  array.forEach(function(task){
+  Array.from(array).forEach(function(task){
     li += `<li data-task-id='${task.id}' class="main-list--link">
             <div class="main-link">
                 <input id='${task.id}' class="main-input" type="checkbox"}>
@@ -49,7 +49,7 @@ const addRender = (array) =>{
   $taskInput.focus();
   
   //ДОБАВЛЯЕМ АКТИВНЫЕ ЧЕКБОКСЫ НА СТРАНИЦУ(ALL)
-   array.forEach((task) => {
+   taskArray.forEach((task) => {
     const taskReturn = document.getElementById(`${task.id}`);
     taskReturn.checked = task.checked;
   });
@@ -75,7 +75,7 @@ const activeChecked = (event) => {
   taskArray.forEach((task) => {
     task.checked = chekAll.checked;
   });
-  addRender(taskArray);
+  addRender();
   console.log(taskArray);
 };
 
@@ -91,13 +91,13 @@ const deleteTask = (event) => {
     });
     //Удаляем задачу из разметки
     listItem.remove();
-    addRender(taskArray);
+    addRender();
   };
 };
 
 //=========ЭЛЕМЕНТ ПОПАДАЕТ ALL==========================================
 const taskAll = () => {
-  addRender(taskArray);
+  addRender();
   console.log(taskArray);
 };
 

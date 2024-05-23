@@ -75,7 +75,7 @@ const activeChecked = (event) => {
   taskArray.forEach((task) => {
     task.checked = chekAll.checked;
   });
-  addRender(taskArray);
+  addRender();
   console.log(taskArray);
 };
 
@@ -91,13 +91,13 @@ const deleteTask = (event) => {
     });
     //Удаляем задачу из разметки
     listItem.remove();
-    addRender(taskArray);
+    addRender();
   };
 };
 
 //=========ЭЛЕМЕНТ ПОПАДАЕТ ALL==========================================
 const taskAll = () => {
-  addRender(taskArray);
+  addRender();
   console.log(taskArray);
 };
 
